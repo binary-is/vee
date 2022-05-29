@@ -1,1 +1,10 @@
 #!/bin/bash
+VENV_DIR="${HOME}/.venv"
+PROJECT=$(basename $(pwd))
+
+VENV_PROJECT="${VENV_DIR}/${PROJECT}"
+ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
+
+if [ -f "${ACTIVATION_FILE}" ]; then
+    echo $ACTIVATION_FILE
+fi
