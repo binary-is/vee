@@ -22,14 +22,19 @@ ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 
 if [ "$1" = "venv-not-found" ]; then
 
-    # Only called internally by default behavior. Explains that the virtual environment does not exist.
+    # Only called internally.
     echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+
+elif [ "$1" = "venv-already-exists" ]; then
+
+    # Only called internally.
+    echo "Error: Virtual environment already exists."
 
 elif [ "$1" = "start" ]; then
 
     # Check if virtual environment exists.
     if [ -f "${ACTIVATION_FILE}" ]; then
-        echo "Error: Virtual environment already exists."
+        echo "$0 venv-already-exists"
         exit 1
     fi
 
