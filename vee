@@ -1,4 +1,19 @@
 #!/bin/bash
+#
+# Note: This script should always be sourced when being run.
+#
+# Example:
+#
+#     . $(vee)
+#
+# or
+#
+#     source $(vee)
+#
+# but never simply:
+#
+#     vee
+#
 VENV_DIR="${HOME}/.venv"
 PROJECT=$(basename $(pwd))
 
@@ -6,7 +21,10 @@ VENV_PROJECT="${VENV_DIR}/${PROJECT}"
 ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 
 if [ "$1" = "venv-not-found" ]; then
+
+    # Only called internally by default behavior. Explains that the virtual environment does not exist.
     echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+
 elif [ "$1" = "start" ]; then
 
     # Check if virtual environment exists.
@@ -28,11 +46,14 @@ elif [ "$1" = "start" ]; then
     echo ${ACTIVATION_FILE}
 
 elif [ "$1" = "" ]; then
+
+    # Default behavior. Activates a virtual environment if it exists.
     if [ -f "${ACTIVATION_FILE}" ]; then
         echo $ACTIVATION_FILE
     else
         echo "$0 venv-not-found"
     fi
+
 else
     echo "Invalid command."
 fi
