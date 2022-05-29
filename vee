@@ -5,6 +5,14 @@ PROJECT=$(basename $(pwd))
 VENV_PROJECT="${VENV_DIR}/${PROJECT}"
 ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 
-if [ -f "${ACTIVATION_FILE}" ]; then
-    echo $ACTIVATION_FILE
+if [ "$1" = "venv-not-found" ]; then
+    echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+elif [ "$1" = "" ]; then
+    if [ -f "${ACTIVATION_FILE}" ]; then
+        echo $ACTIVATION_FILE
+    else
+        echo "$0 venv-not-found"
+    fi
+else
+    echo "Invalid command."
 fi
