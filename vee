@@ -7,6 +7,26 @@ ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 
 if [ "$1" = "venv-not-found" ]; then
     echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+elif [ "$1" = "start" ]; then
+
+    # Check if virtual environment exists.
+    if [ -f "${ACTIVATION_FILE}" ]; then
+        echo "Error: Virtual environment already exists."
+        exit 1
+    fi
+
+    # Move to virtual environment directory.
+    OLD_DIR=$(pwd)
+    cd ${VENV_DIR}
+
+    # Create Python virtual environment.
+    python3 -m venv ${PROJECT}
+
+    # Move back to old directory.
+    cd ${OLD_DIR}
+
+    echo ${ACTIVATION_FILE}
+
 elif [ "$1" = "" ]; then
     if [ -f "${ACTIVATION_FILE}" ]; then
         echo $ACTIVATION_FILE
