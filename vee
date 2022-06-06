@@ -15,15 +15,36 @@
 #     vee
 #
 VENV_DIR="${HOME}/.venv"
-PROJECT=$(basename $(pwd))
 
-VENV_PROJECT="${VENV_DIR}/${PROJECT}"
-ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
+configure_vars() {
+    PROJECT=$(basename $(pwd))
+    VENV_PROJECT="${VENV_DIR}/${PROJECT}"
+    ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
+}
+
+configure_vars
 
 if [ "$1" = "venv-not-found" ]; then
 
     # Only called internally.
     echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+
+elif [ "$1" = "set-cd-redirected" ]; then
+
+    cd() {
+        builtin cd "$@"
+
+        # Automatically activate virtual environment if appropriate.
+        configure_vars
+        if [ -f "requirements.txt" ] && [ -f "${ACTIVATION_FILE}" ]; then
+            . "${ACTIVATION_FILE}"
+        fi
+    }
+
+
+elif [ "$1" = "set-cd" ]; then
+
+    echo "$0 set-cd-redirected"
 
 elif [ "$1" = "venv-already-exists" ]; then
 
