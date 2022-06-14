@@ -60,14 +60,14 @@ elif [ "$1" = "start" ]; then
     fi
 
     # Move to virtual environment directory.
-    OLD_DIR=$(pwd)
+    OLD_DIR="$(pwd)"
     cd ${VENV_DIR}
 
     # Create Python virtual environment.
-    python3 -m venv ${PROJECT}
+    python3 -m venv "${PROJECT}"
 
     # Move back to old directory.
-    cd ${OLD_DIR}
+    cd "${OLD_DIR}"
 
     echo ${ACTIVATION_FILE}
 
