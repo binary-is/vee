@@ -4,16 +4,18 @@
 #
 # Example:
 #
-#     . $(vee)
+#     . "$(vee)"
 #
 # or
 #
-#     source $(vee)
+#     source "$(vee)"
 #
 # but never simply:
 #
 #     vee
 #
+# The double-quotes are needed when the current path has spaces in them. If
+# there are no spaces in the path, the double-quotes can be skipped.
 VENV_DIR="${HOME}/.venv"
 
 configure_vars() {
