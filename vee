@@ -17,7 +17,7 @@
 VENV_DIR="${HOME}/.venv"
 
 configure_vars() {
-    PROJECT=$(basename $(pwd))
+    PROJECT=$(basename "$(pwd)")
     VENV_PROJECT="${VENV_DIR}/${PROJECT}"
     ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 }
