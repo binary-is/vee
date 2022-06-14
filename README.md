@@ -1,8 +1,10 @@
 # Installation
 
-In your `~/.bashrc`, add the following line, assuming the `vee` is in the path:
+1. Place the `vee` command in your path.
 
-    source $(vee set-cd)
+2. In your `~/.bashrc`, add the following line:
+
+    source vee
 
 # Work-in-progress
 
