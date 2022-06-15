@@ -5,14 +5,13 @@
 #
 # After that, an alias will be formed with the same name, "vee", which then
 # takes over as the actual command.
-VENV_DIR="${HOME}/.venv"
+VEE_VENV_DIR="${HOME}/.venv"
 
 # Make sure that all the variables we need are configured.
 # FIXME: This should be cleaned up on exit.
 configure_vars() {
-    PROJECT=$(basename "$(pwd)")
-    VENV_PROJECT="${VENV_DIR}/${PROJECT}"
-    ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
+    VEE_PROJECT=$(basename "$(pwd)")
+    VEE_ACTIVATION_FILE="${VENV_PROJECT}/${VEE_PROJECT}/bin/activate"
 }
 
 # Override the `cd` command to allow for some automation.
@@ -22,7 +21,7 @@ cd() {
 
     # Automatically activate virtual environment if appropriate.
     configure_vars
-    if [ -f "requirements.txt" ] && [ -f "${ACTIVATION_FILE}" ]; then
+    if [ -f "requirements.txt" ] && [ -f "${VEE_ACTIVATION_FILE}" ]; then
         vee
     fi
 }
@@ -38,23 +37,23 @@ vee() {
     if [ "$1" = "start" ]; then
 
         # Check if virtual environment exists.
-        if [ -f "${ACTIVATION_FILE}" ]; then
+        if [ -f "${VEE_ACTIVATION_FILE}" ]; then
             echo "Error: Virtual environment already exists."
             return
         fi
 
         # Move to virtual environment directory.
         OLD_DIR="$(pwd)"
-        builtin cd "${VENV_DIR}"
+        builtin cd "${VEE_VENV_DIR}"
 
         # Create Python virtual environment.
-        python3 -m venv "${PROJECT}"
+        python3 -m venv "${VEE_PROJECT}"
 
         # Move back to old directory.
         builtin cd "${OLD_DIR}"
 
         # Activate the newly created virtual environment.
-        source "${ACTIVATION_FILE}"
+        source "${VEE_ACTIVATION_FILE}"
 
         # Install packages in requirements.txt.
         if [ -f "requirements.txt" ]; then
@@ -67,10 +66,10 @@ vee() {
     # no good reason to run this manually.
     elif [ "$1" = "" ]; then
 
-        if [ -f "${ACTIVATION_FILE}" ]; then
-            source "${ACTIVATION_FILE}"
+        if [ -f "${VEE_ACTIVATION_FILE}" ]; then
+            source "${VEE_ACTIVATION_FILE}"
         else
-            echo "Error: Python virtual environment for project '${PROJECT}' was not found in '${VENV_DIR}'."
+            echo "Error: Python virtual environment for project '${VEE_PROJECT}' was not found in '${VEE_VENV_DIR}'."
         fi
 
     else
