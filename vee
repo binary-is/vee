@@ -47,8 +47,13 @@ vee() {
         # Move back to old directory.
         builtin cd "${OLD_DIR}"
 
-        # Finally activate the newly created virtual environment.
+        # Activate the newly created virtual environment.
         source "${ACTIVATION_FILE}"
+
+        # Install packages in requirements.txt.
+        if [ -f "requirements.txt" ]; then
+            pip install -r requirements.txt
+        fi
 
     elif [ "$1" = "" ]; then
 
