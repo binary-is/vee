@@ -7,12 +7,15 @@
 # takes over as the actual command.
 VENV_DIR="${HOME}/.venv"
 
+# Make sure that all the variables we need are configured.
+# FIXME: This should be cleaned up on exit.
 configure_vars() {
     PROJECT=$(basename "$(pwd)")
     VENV_PROJECT="${VENV_DIR}/${PROJECT}"
     ACTIVATION_FILE="${VENV_PROJECT}/bin/activate"
 }
 
+# Override the `cd` command to allow for some automation.
 cd() {
     # Run the built-in `cd` function as expected.
     builtin cd "$@"
@@ -24,11 +27,14 @@ cd() {
     fi
 }
 
-# This allows the user to call the script directly instead of
-# `source`-ing it with double quotes every time.
+# The `vee` command in the session will henceforth refer to this function, and
+# not to the identically names script.
 vee() {
+
     configure_vars
 
+    # Command for starting a new virtual environment and installing the
+    # packages found in `requirements.txt`, if it is present.
     if [ "$1" = "start" ]; then
 
         # Check if virtual environment exists.
@@ -55,6 +61,10 @@ vee() {
             pip install -r requirements.txt
         fi
 
+    # Default behavior. Can be run by running `vee` without arguments when the
+    # script has been sourced (with `source vee`), but is automatically
+    # executed when entering a directory where it works, so there is normally
+    # no good reason to run this manually.
     elif [ "$1" = "" ]; then
 
         if [ -f "${ACTIVATION_FILE}" ]; then
