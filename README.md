@@ -25,7 +25,7 @@ This tool should be so simple to use, that a cheat-sheet should suffice to docum
 # Cheat-sheet
 
 | Command     | Function                                                                                                                                                   |
-+ ----------- + ---------------------------------------------------------------------------------------------------------------------------------------------------------- +
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `vee start` | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
 | `vee`       | Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.                        |
 
