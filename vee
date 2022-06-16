@@ -64,11 +64,11 @@ vee() {
     # script has been sourced (with `source vee`), but is automatically
     # executed when entering a directory where it works, so there is normally
     # no good reason to run this manually.
-    elif [ "$1" = "" ]; then
+    elif [ "$1" = "" ] || [ "$1" = "quiet" ]; then
 
         if [ -f "${VEE_ACTIVATION_FILE}" ]; then
             source "${VEE_ACTIVATION_FILE}"
-        else
+        elif [ "$1" != "quiet" ]; then
             echo "Error: Python virtual environment for project '${VEE_PROJECT}' was not found in '${VEE_VENV_DIR}'."
         fi
 
@@ -76,3 +76,9 @@ vee() {
         echo "Invalid command."
     fi
 }
+
+# Only runs when script is sourced initially. This is done in case the shell
+# sourcing the script is opened within a directory where `vee` should run.
+if [ "$0" != "$BASH_SOURCE" ]; then
+    vee
+fi
