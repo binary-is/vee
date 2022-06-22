@@ -80,5 +80,5 @@ vee() {
 # Only runs when script is sourced initially. This is done in case the shell
 # sourcing the script is opened within a directory where `vee` should run.
 if [ "$0" != "$BASH_SOURCE" ]; then
-    vee
+    vee quiet
 fi
