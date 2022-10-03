@@ -1,10 +1,16 @@
 #!/bin/bash
+# Name: VEE
+# Version: 0.2
+#
 # Note: This script must be sourced before it can be used directly:
 #
 #     source vee
 #
 # After that, an alias will be formed with the same name, "vee", which then
 # takes over as the actual command.
+#
+# It is best to place `source vee` in your `~/.bashrc` or equivalent.
+
 VEE_VENV_DIR="${HOME}/.venv"
 
 # Make sure that all the variables we need are configured.
@@ -19,11 +25,8 @@ cd() {
     # Run the built-in `cd` function as expected.
     builtin cd "$@"
 
-    # Automatically activate virtual environment if appropriate.
-    configure_vars
-    if [ -f "requirements.txt" ] && [ -f "${VEE_ACTIVATION_FILE}" ]; then
-        vee
-    fi
+    # Run activate when entering directory.
+    vee activate
 }
 
 # The `vee` command in the session will henceforth refer to this function, and
@@ -32,8 +35,8 @@ vee() {
 
     configure_vars
 
-    # Command for starting a new virtual environment and installing the
-    # packages found in `requirements.txt`, if it is present.
+    # Start a new virtual environment and install the packages found in
+    # `requirements.txt`, if it is present.
     if [ "$1" = "start" ]; then
 
         # Check if virtual environment exists.
@@ -60,17 +63,17 @@ vee() {
             pip install -r requirements.txt
         fi
 
-    # Default behavior. Can be run by running `vee` without arguments when the
-    # script has been sourced (with `source vee`), but is automatically
-    # executed when entering a directory where it works, so there is normally
-    # no good reason to run this manually.
-    elif [ "$1" = "" ] || [ "$1" = "quiet" ]; then
+    # Activate virtual environment if possible.
+    elif [ "$1" = "activate" ]; then
 
-        if [ -f "${VEE_ACTIVATION_FILE}" ]; then
+        if [ -f "requirements.txt" ] && [ -f "${VEE_ACTIVATION_FILE}" ]; then
             source "${VEE_ACTIVATION_FILE}"
-        elif [ "$1" != "quiet" ]; then
-            echo "Error: Python virtual environment for project '${VEE_PROJECT}' was not found in '${VEE_VENV_DIR}'."
         fi
+
+    # Default behavior.
+    elif [ "$1" = "" ]; then
+
+        vee start
 
     else
         echo "Invalid command."
@@ -80,5 +83,5 @@ vee() {
 # Only runs when script is sourced initially. This is done in case the shell
 # sourcing the script is opened within a directory where `vee` should run.
 if [ "$0" != "$BASH_SOURCE" ]; then
-    vee quiet
+    vee activate
 fi

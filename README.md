@@ -10,26 +10,43 @@ It is inspired by [`virtualenvwrapper`](https://virtualenvwrapper.readthedocs.io
 
 # Installation
 
-Place the `vee` command in your `$PATH`.
+In your `~/.bashrc` or equivalent, add the following line, where `/path/to/vee` is the full path to the `vee` script.
 
-Then, in your `~/.bashrc`, add the following line:
+    source /path/to/vee
 
-    source vee
+*Hint: You can also place `vee` in your `$PATH` and just call `source vee`.*
 
-Alternatively, you can run the command with the full path of `vee` instead of having it in your `$PATH`. Once it has been sourced by the above-mentioned command, a globally available Bash function has been set, also named `vee`.
+Once `vee` is sourced from your `bashrc`-equivalent, you can call `vee` to start and activate a new virtual environment in a directory that contains a `requirements.txt` file, like so:
+
+    vee
+
+Example output in a project called `example`, containing only a `requirements.txt` file:
+
+    [someuser@good-machine ~/example]$ cat requirements.txt 
+    python-dotenv
+    [someuser@good-machine ~/example]$ vee
+    Collecting python-dotenv
+      Using cached python_dotenv-0.21.0-py3-none-any.whl (18 kB)
+    Installing collected packages: python-dotenv
+    Successfully installed python-dotenv-0.21.0
+    (example) [someuser@good-machine ~/example]$ 
+
+Note that you did not need to provide a project name, figure out where to store the virtual environment, nor did you have to activate it.
+
+From then on, when you enter the directory, the virtual environment is activated automatically. Example:
+
+    [someuser@good-machine ~]$ cd example          # No virtual environment.
+    (example) [someuser@good-machine ~/example]$   # Virtual environment activated.
+
 
 From then on, you may call `vee` from the command line, regardless of whether the script itself is in the `$PATH` or not.
 
-This tool should be so simple to use, that a cheat-sheet should suffice to document its operation.
-
 # Cheat-sheet
 
-| Command     | Function                                                                                                                                                   |
-| ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `vee start` | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
-| `vee`       | Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.                        |
+*The only command you need to concern yourself with in everyday life is `vee`.*
 
-VEE commands do not replace single commands that already exist in any environment where VEE might possibly be run. They should just be used normally when used individually. Most notable examples are:
-
-* `deactivate` to deactivate the virtual environment.
-* `pip install -r requirements.txt` to install packages. Actually, `vee start` does this for you but only as a part of a command that does more than that, namely figuring out the project's name, creating a virtual environment, activating it and installing requirements if they are available.
+| Command        | Function                                                                                                                                                   |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `vee`          | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
+| `vee activate` | Only used internally. Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.  |
+| `vee start`    | Only used internally. This is what calling `vee` without a command actually does.                                                                          |
