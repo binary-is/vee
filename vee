@@ -46,6 +46,13 @@ vee() {
     # `requirements.txt`, if it is present.
     if [ "$1" = "start" ]; then
 
+        # Make sure that Python 3 and its 'venv' module are installed.
+        python3 -c 'import venv' 2>/dev/null
+        if [ "$?" != "0" ]; then
+            echo "Error: Python 3 and 'venv' module must be installed."
+            return
+        fi
+
         ensure_virtual_environment_directory
 
         # Check if virtual environment exists.
