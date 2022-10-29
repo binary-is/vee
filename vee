@@ -68,9 +68,10 @@ vee() {
 
         # Activate the newly created virtual environment.
         source "${VEE_ACTIVATION_FILE}"
+        ACTIVATION_RESULT=$0
 
         # Install packages in requirements.txt.
-        if [ -f "requirements.txt" ]; then
+        if [ "$ACTIVATION_RESULT" = "0" ] && [ -f "requirements.txt" ]; then
             pip install -r requirements.txt
         fi
 
