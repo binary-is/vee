@@ -56,19 +56,12 @@ vee() {
             return
         fi
 
-        # Move to virtual environment directory.
-        OLD_DIR="$(pwd)"
-        builtin cd "${VEE_VENV_DIR}"
-
         # Create Python virtual environment.
-        python3 -m venv "${VEE_PROJECT}"
-
-        # Move back to old directory.
-        builtin cd "${OLD_DIR}"
+        python3 -m venv "${VEE_PROJECT_VENV_DIR}"
 
         # Activate the newly created virtual environment.
         source "${VEE_ACTIVATION_FILE}"
-        ACTIVATION_RESULT=$0
+        ACTIVATION_RESULT=$?
 
         # Install packages in requirements.txt.
         if [ "$ACTIVATION_RESULT" = "0" ] && [ -f "requirements.txt" ]; then
