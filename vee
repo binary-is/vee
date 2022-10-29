@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: VEE
-# Version: 0.2
+# Version: 0.3
 #
 # Note: This script must be sourced before it can be used directly:
 #
@@ -17,6 +17,7 @@ VEE_VENV_DIR="${HOME}/.venv"
 # FIXME: This should be cleaned up on exit.
 configure_vars() {
     VEE_PROJECT=$(basename "$(pwd)")
+    VEE_PROJECT_VENV_DIR="${VEE_VENV_DIR}/${VEE_PROJECT}"
     VEE_ACTIVATION_FILE="${VEE_VENV_DIR}/${VEE_PROJECT}/bin/activate"
 }
 
@@ -42,6 +43,8 @@ vee() {
         # Check if virtual environment exists.
         if [ -f "${VEE_ACTIVATION_FILE}" ]; then
             echo "Error: Virtual environment already exists."
+            echo "To rebuild it from 'requirements.txt', type:"
+            echo "    vee restart"
             return
         fi
 
@@ -69,6 +72,16 @@ vee() {
         if [ -f "requirements.txt" ] && [ -f "${VEE_ACTIVATION_FILE}" ]; then
             source "${VEE_ACTIVATION_FILE}"
         fi
+
+    elif [ "$1" = "restart" ]; then
+
+        # Delete project's virtual environment.
+        if [ -d "$VEE_PROJECT_VENV_DIR" ]; then
+            rm -rf "$VEE_PROJECT_VENV_DIR"
+        fi
+
+        # Start over.
+        vee start
 
     # Default behavior.
     elif [ "$1" = "" ]; then
