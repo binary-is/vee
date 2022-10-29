@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: VEE
-# Version: 0.3
+# Version: 0.3.1
 #
 # Note: This script must be sourced before it can be used directly:
 #
@@ -21,6 +21,12 @@ configure_vars() {
     VEE_ACTIVATION_FILE="${VEE_VENV_DIR}/${VEE_PROJECT}/bin/activate"
 }
 
+ensure_virtual_environment_directory() {
+    if [ ! -d "$VEE_VENV_DIR" ]; then
+        mkdir "$VEE_VENV_DIR"
+    fi
+}
+
 # Override the `cd` command to allow for some automation.
 cd() {
     # Run the built-in `cd` function as expected.
@@ -39,6 +45,8 @@ vee() {
     # Start a new virtual environment and install the packages found in
     # `requirements.txt`, if it is present.
     if [ "$1" = "start" ]; then
+
+        ensure_virtual_environment_directory
 
         # Check if virtual environment exists.
         if [ -f "${VEE_ACTIVATION_FILE}" ]; then
