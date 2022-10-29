@@ -48,5 +48,6 @@ From then on, you may call `vee` from the command line, regardless of whether th
 | Command        | Function                                                                                                                                                   |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `vee`          | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
+| `vee restart`  | Deletes the virtual environment, creates a new one, installs packages in `requirements.txt` and re-activate the virtual environment.                       |
 | `vee activate` | Only used internally. Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.  |
 | `vee start`    | Only used internally. This is what calling `vee` without a command actually does.                                                                          |
