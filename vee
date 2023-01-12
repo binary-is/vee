@@ -16,7 +16,8 @@ VEE_VENV_DIR="${HOME}/.venv"
 # Make sure that all the variables we need are configured.
 # FIXME: This should be cleaned up on exit.
 configure_vars() {
-    VEE_PROJECT=$(basename "$(pwd)")
+    VEE_PROJECT_PARENT_DIR=$(dirname "$(pwd)")
+    VEE_PROJECT=$(basename "$VEE_PROJECT_PARENT_DIR").$(basename "$(pwd)")
     VEE_PROJECT_VENV_DIR="${VEE_VENV_DIR}/${VEE_PROJECT}"
     VEE_ACTIVATION_FILE="${VEE_VENV_DIR}/${VEE_PROJECT}/bin/activate"
 }
