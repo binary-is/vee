@@ -64,8 +64,14 @@ vee() {
             return
         fi
 
+        # Determine prompt.
+        VEE_PROMPT="${VEE_PROJECT}"
+        if [ "$2" != "" ]; then
+            VEE_PROMPT="$2"
+        fi
+
         # Create Python virtual environment.
-        python3 -m venv "${VEE_PROJECT_VENV_DIR}"
+        python3 -m venv "${VEE_PROJECT_VENV_DIR}" --prompt "${VEE_PROMPT}"
 
         # Activate the newly created virtual environment.
         source "${VEE_ACTIVATION_FILE}"
@@ -91,12 +97,12 @@ vee() {
         fi
 
         # Start over.
-        vee start
+        vee start "$2"
 
     # Default behavior.
     elif [ "$1" = "" ]; then
 
-        vee start
+        vee start "$2"
 
     else
         echo "Invalid command."
