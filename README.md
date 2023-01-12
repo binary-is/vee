@@ -22,24 +22,31 @@ Once `vee` is sourced from your `bashrc`-equivalent, you can call `vee` to start
 
 Example output in a project called `example`, containing only a `requirements.txt` file:
 
-    [someuser@good-machine ~/example]$ cat requirements.txt 
+    [someuser@good-machine ~/code/example]$ cat requirements.txt 
     python-dotenv
-    [someuser@good-machine ~/example]$ vee
+    [someuser@good-machine ~/code/example]$ vee
     Collecting python-dotenv
       Using cached python_dotenv-0.21.0-py3-none-any.whl (18 kB)
     Installing collected packages: python-dotenv
     Successfully installed python-dotenv-0.21.0
-    (example) [someuser@good-machine ~/example]$ 
+    (code.example) [someuser@good-machine ~/code/example]$ 
 
 Note that you did not need to provide a project name, figure out where to store the virtual environment, nor did you have to activate it.
 
 From then on, when you enter the directory, the virtual environment is activated automatically. Example:
 
-    [someuser@good-machine ~]$ cd example          # No virtual environment.
-    (example) [someuser@good-machine ~/example]$   # Virtual environment activated.
+    [someuser@good-machine ~/code]$ cd example                # No virtual environment.
+    (code.example) [someuser@good-machine ~/code/example]$    # Virtual environment activated.
 
+Note that the virtual environment prompt, in this case "code.example", contains both the project's directory and its parent directory. This is to support a common setup where the code resides in a sub-directory inside the project, for example "project/backend" or such and may result in an unnecessarily long prompt. To remedy this, instead of just typing `vee` without arguments, you may select a custom prompt like so:
 
-From then on, you may call `vee` from the command line, regardless of whether the script itself is in the `$PATH` or not.
+    vee start example
+
+The same applies to the `restart` command when you wish to rebuild the virtual environment. At that point, you may also change the prompt like so:
+
+    vee restart example
+
+Both of these will result in the prompt being "example" instead of "code.example".
 
 # Cheat-sheet
 
@@ -50,4 +57,4 @@ From then on, you may call `vee` from the command line, regardless of whether th
 | `vee`          | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
 | `vee restart`  | Deletes the virtual environment, creates a new one, installs packages in `requirements.txt` and re-activate the virtual environment.                       |
 | `vee activate` | Only used internally. Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.  |
-| `vee start`    | Only used internally. This is what calling `vee` without a command actually does.                                                                          |
+| `vee start`    | Only used internally and when setting a custom prompt. This is what calling `vee` without a command actually does.                                         |
