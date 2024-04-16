@@ -20,6 +20,8 @@ Once `vee` is sourced from your `bashrc`-equivalent, you can call `vee` to start
 
     vee
 
+If a virtual environment for the current directory already exists, it is activated instead of created.
+
 Example output in a project called `example`, containing only a `requirements.txt` file:
 
     [someuser@good-machine ~/code/example]$ cat requirements.txt 
@@ -54,7 +56,7 @@ Both of these will result in the prompt being "example" instead of "code.example
 
 | Command        | Function                                                                                                                                                   |
 | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `vee`          | Creates and activates a virtual environment for the current directory, located in `~/.venv`. If `requirements.txt` is present, its packages are installed. |
+| `vee`          | Activates the current directory's virtual environment if it exists, but otherwise creates and activates a new one using the required `requirements.txt`.   |
 | `vee restart`  | Deletes the virtual environment, creates a new one, installs packages in `requirements.txt` and re-activate the virtual environment.                       |
 | `vee activate` | Only used internally. Activates current directory's virtual environment if available. Automatically run after `cd`, so it doesn't need to be run by user.  |
 | `vee start`    | Only used internally and when setting a custom prompt. This is what calling `vee` without a command actually does.                                         |

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: VEE
-# Version: 0.3.1
+# Version: 0.5.0
 #
 # Note: This script must be sourced before it can be used directly:
 #
@@ -54,6 +54,11 @@ vee() {
             return
         fi
 
+        if [ ! -f "requirements.txt" ]; then
+            echo "Error: No requirements.txt file!"
+            return
+        fi
+
         ensure_virtual_environment_directory
 
         # Check if virtual environment exists.
@@ -102,7 +107,11 @@ vee() {
     # Default behavior.
     elif [ "$1" = "" ]; then
 
-        vee start "$2"
+        if [ -f "${VEE_ACTIVATION_FILE}" ]; then
+            vee activate
+        else
+            vee start "$2"
+        fi
 
     else
         echo "Invalid command."
