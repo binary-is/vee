@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: VEE
-# Version: 0.5.0
+# Version: 0.6.0
 #
 # Note: This script must be sourced before it can be used directly:
 #
@@ -103,6 +103,16 @@ vee() {
 
         # Start over.
         vee start "$2"
+
+    elif [ "$1" = "upgrade" ]; then
+
+        # Upgrade the packages in `requirements.txt`.
+        if [ -f "requirements.txt" ] && [ -f "${VEE_ACTIVATION_FILE}" ]; then
+            pip install --upgrade -r requirements.txt
+        else
+            echo "Error: Need an active virtual environment and requirements.txt."
+            return
+        fi
 
     # Default behavior.
     elif [ "$1" = "" ]; then
