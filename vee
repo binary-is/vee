@@ -1,6 +1,6 @@
 #!/bin/bash
 # Name: VEE
-# Version: 0.6.1
+# Version: 0.7.0
 #
 # Note: This script must be sourced before it can be used directly:
 #
@@ -81,6 +81,9 @@ vee() {
         # Activate the newly created virtual environment.
         source "${VEE_ACTIVATION_FILE}"
         ACTIVATION_RESULT=$?
+
+        # Upgrade `pip` to newest version.
+        pip install --upgrade pip
 
         # Install packages in requirements.txt.
         if [ "$ACTIVATION_RESULT" = "0" ] && [ -f "requirements.txt" ]; then
