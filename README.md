@@ -15,6 +15,8 @@ In your `~/.bashrc` or equivalent, add the following line, where `/path/to/vee` 
 
     source /path/to/vee
 
+If you experience with interference with `$PATH` or other variables when opening new sessions in gizmos such as `tmux`, try making sure that the sourcing of VEE occurs at the very end of `~/.bashrc` or its equivalent.
+
 *Hint: You can also place `vee` in your `$PATH` and just call `source vee`.*
 
 Once `vee` is sourced from your `bashrc`-equivalent, you can call `vee` to start and activate a new virtual environment in a directory that contains a `requirements.txt` or `pyproject.toml` file, like so:
